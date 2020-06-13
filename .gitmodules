@@ -1,0 +1,3 @@
+[submodule "SimpleCalculator"]
+	path = SimpleCalculator
+	url = https://github.com/Mrgashi/UdemyCourse
