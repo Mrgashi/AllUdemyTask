@@ -1,3 +1,4 @@
+// Another class that extends Animal.
 public class Fish extends Animal{
 
     private int gills;
