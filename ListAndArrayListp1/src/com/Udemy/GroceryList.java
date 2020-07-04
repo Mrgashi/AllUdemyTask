@@ -22,6 +22,7 @@ public class GroceryList {
             modifyGroceryItems(position, newItem);
         }
     }
+
     private void modifyGroceryItems(int position, String newItem) {
         groceryList.set(position, newItem);
         System.out.println("GroceryItem " + (position + 1) + " has been updated. ");
@@ -33,6 +34,7 @@ public class GroceryList {
             removeGroceryItem(position);
         }
     }
+
     private void removeGroceryItem(int position) {
         groceryList.remove(position);
     }
