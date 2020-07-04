@@ -1,6 +1,7 @@
 package com.udemy.LinkedList;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class Album {
 
@@ -31,7 +32,7 @@ public class Album {
         return false;
     }
 
-    public boolean addToPlaylist(int trackNumber, LinkedList<Song> playlist) {
+    public boolean addToPlaylist(int trackNumber, List<Song> playlist) {
         int index = trackNumber - 1;
         if (index >= 0 && index <= this.songs.size()) {
             playlist.add(songs.get(index));
@@ -41,7 +42,7 @@ public class Album {
         return false;
     }
 
-    public boolean addToPlayList(String title, LinkedList<Song> playlist) {
+    public boolean addToPlayList(String title, List<Song> playlist) {
         Song checkedSong = findSong(title);
 
         if (checkedSong != null && check(playlist, title)) {
@@ -52,7 +53,7 @@ public class Album {
         return false;
     }
 
-    private boolean check(LinkedList<Song> playlist, String title) {
+    private boolean check(List<Song> playlist, String title) {
         for (Song have : playlist) {
             if (have.getTitle().equals(title)) {
                 return false;

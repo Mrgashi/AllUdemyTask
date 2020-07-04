@@ -4,7 +4,7 @@ import java.util.*;
 
 public class AlbumPlayer {
 
-    private static ArrayList<Album> albums = new ArrayList<Album>();
+    private static List<Album> albums = new ArrayList<Album>();
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -34,7 +34,9 @@ public class AlbumPlayer {
         albums.add(album);
 
 
-        LinkedList<Song> playlist = new LinkedList<Song>();
+        List<Song> playlist = new ArrayList<>(); // since we now changed this to a Interface of List,
+                                                 // we can change the playlist to whatever kind of List
+                                                 // without breaking the code.
         albums.get(0).addToPlayList("You cant do it right", playlist);
         albums.get(0).addToPlayList("Holy man", playlist);
         albums.get(0).addToPlayList("Speed king", playlist); // does not exist
@@ -49,7 +51,7 @@ public class AlbumPlayer {
 
     }
 
-    private static void play(LinkedList<Song> playlist) {
+    private static void play(List<Song> playlist) {
         boolean quit = false;
         boolean next = false;
         ListIterator<Song> songListIterator = playlist.listIterator();
@@ -137,7 +139,7 @@ public class AlbumPlayer {
     }
 
 
-    private static void printPlaylist(LinkedList<Song> playlist) {
+    private static void printPlaylist(List<Song> playlist) {
         Iterator<Song> iterator = playlist.iterator();
         System.out.println("================");
 
