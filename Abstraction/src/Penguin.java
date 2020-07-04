@@ -1,4 +1,13 @@
-package PACKAGE_NAME;
+public class Penguin extends Bird{
 
-public class Penguin {
+    public Penguin(String name) {
+        super(name);
+    }
+
+    @Override
+    public void fly() {
+        super.fly();
+        System.out.println(getName() + "Penguin can not Fly");
+    }
+
 }

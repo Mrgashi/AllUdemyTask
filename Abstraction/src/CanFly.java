@@ -1,3 +1,3 @@
-public interface ICanFly {
+public interface CanFly {
     void fly();
 }
