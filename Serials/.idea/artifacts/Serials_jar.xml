@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Serials:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Serials_jar</output-path>
+    <root id="archive" name="Serials.jar">
+      <element id="module-output" name="Serials" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="PackagesCourse">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../PackagesCourse/out/artifacts/PackagesCourse_jar/PackagesCourse.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
