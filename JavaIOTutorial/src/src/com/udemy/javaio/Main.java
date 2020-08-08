@@ -25,6 +25,8 @@ public class Main {
         vocabulary.put("SOUTH", "S");
         vocabulary.put("WEST", "W");
         vocabulary.put("EAST", "E");
+        vocabulary.put("UP", "U");
+        vocabulary.put("DOWN", "D");
 
         int loc = 64;
         while (true) {

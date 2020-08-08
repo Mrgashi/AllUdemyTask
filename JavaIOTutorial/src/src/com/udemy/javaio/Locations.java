@@ -8,101 +8,93 @@ public class Locations implements Map<Integer, Location> {
 
     public static void main(String[] args) throws IOException {
 
-        try(BufferedWriter locFile = new BufferedWriter(new FileWriter("locations.txt"));
-            BufferedWriter dirFile = new BufferedWriter(new FileWriter("directions.txt"))){
+        //    try (DataOutputStream locFile = new DataOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))) {
+        //        for (Location location : locations.values()) {
+        //            locFile.writeInt(location.getLocationID());
+        //            locFile.writeUTF(location.getDescription());
+        //            System.out.println("Writing locations " + location.getLocationID() + " : " + location.getDescription());
+        //            System.out.println("Writing " + (location.getExits().size() - 1) + " exits.");
+        //            locFile.writeInt(location.getExits().size() - 1);
+        //            for (String direction : location.getExits().keySet()) {
+        //                if (!direction.equalsIgnoreCase("Q")) {
+        //                    System.out.println("\t\t" + direction + ", " + location.getExits().get(direction));
+        //                    locFile.writeUTF(direction);
+        //                    locFile.writeInt(location.getExits().get(direction));
+        //                }
+        //            }
+        //        }
+        //    }
+        /*
+         * this is so much cleaner than the above, this is because we have made locations serializable
+         */
+        try (ObjectOutputStream locFile = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("locations.dat")))) {
             for (Location location : locations.values()) {
-                locFile.write(location.getLocationID() + "," + location.getDescription() + "\n");
-                for (String direction : location.getExits().keySet()) {
-                    if (!direction.equalsIgnoreCase("Q")) {
-                        dirFile.write(location.getLocationID() + "," + direction + "," + location.getExits().get(direction) + "\n");
-                    }
-                }
+                locFile.writeObject(location);
             }
         }
-        //  FileWriter locFile = null;
-        //   try {
-        //       locFile = new FileWriter("locations.txt");
-        //       for (Location location : locations.values()) {
-        //           locFile.write(location.getLocationID() + "," + location.getDescription() + "\n");
-        //       }
-        //   } finally {
-        //       System.out.println("In finally block");
-        //       try {
-        //           if (locFile != null) {
-        //               locFile.close();
-        //           }
-        //       } catch (IOException e) {
-        //           e.printStackTrace();
-        //       }
-        //   }
     }
 
-    static {
+    // static initialization of locations block
+    // 1. The first four bytes will contain the number of locations (bytes 0-3)
+    // 2. The next four bytes will contain the start offset of the locations section (bytes 4-7)
+    // 3. The next section of the file will contain the index ( the index is 1692 bytes long. It will start at byte 8 and end at byte 1699)
+    // 4. The final section of the file will contain the location records ( the data ). It will start at byte 1700.
 
-        try {
-            Scanner scanner = new Scanner(new BufferedReader(new FileReader("locations_big.txt")));
-            scanner.useDelimiter(","); // use this to separate input.
-            while (scanner.hasNextLine()){
-                int loc = scanner.nextInt();
-                scanner.skip(scanner.delimiter());
-                String description = scanner.nextLine();
-                System.out.println("Imported loc: " + loc + ": " + description);
-                Map<String, Integer> tempExit = new HashMap<>();
-                locations.put(loc, new Location(loc, description,tempExit));
+    static {
+        try (ObjectInputStream locFile = new ObjectInputStream(new BufferedInputStream(new FileInputStream("locations.dat")))) {
+            boolean endOfFile = false;
+            while (!endOfFile) {
+                try {
+                    Location location = (Location) locFile.readObject();
+                    System.out.println("Read location" + location.getLocationID() + " : " + location.getDescription());
+                    System.out.println("Found: " + location.getExits().size() + "exits");
+
+                    locations.put(location.getLocationID(), location);
+                } catch (EOFException e) {
+                    endOfFile = true;
+                }
             }
-        } catch (IOException e){
-            e.printStackTrace();
+        } catch (InvalidClassException invalidClassException) {
+            System.out.println("Cant find ClassPath?" + invalidClassException.getMessage());
+        } catch (IOException io) {
+            System.out.println("IO Exception!" + io.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Class not found exeption" + e.getMessage());
         }
 
-        // now read the exits with a readBuffer
+        //    while (!endOfFile) {
+        //        try {
+        //            Map<String, Integer> exits = new LinkedHashMap<>();
+        //            int locID = locFile.readInt();
+        //            String descritption = locFile.readUTF();
+        //            int numExits = locFile.readInt();
+        //            System.out.println("Read location" + locID + " : " + descritption);
+        //            System.out.println("Found" + numExits + " exits");
+        //            for (int i = 0; i < numExits; i++) {
+        //                String direction = locFile.readUTF();
+        //                int destination = locFile.readInt();
+        //                exits.put(direction, destination);
+        //                System.out.println("\t\t" + direction + "," + destination);
+        //            }
+        //            locations.put(locID, new Location(locID, descritption, exits));
+        //        } catch (EOFException e) {
+        //            endOfFile = true;
+        //        }
+        //    }
         try (BufferedReader dirfile = new BufferedReader(new FileReader("directions_big.txt"))) {
             String input;
-            while ((input = dirfile.readLine()) != null){
-               // int loc = scanner.nextInt();
-               // scanner.skip(scanner.delimiter());
-               // String directions = scanner.next();
-               // scanner.skip(scanner.delimiter());
-               // String dest = scanner.nextLine();
-               // int destination = Integer.parseInt(dest);
+            while ((input = dirfile.readLine()) != null) {
                 String[] data = input.split(",");
                 int loc = Integer.parseInt(data[0]);
                 String directions = data[1];
                 int destination = Integer.parseInt(data[2]);
-
                 System.out.println(loc + ": " + directions + ": " + destination);
                 Location location = locations.get(loc);
                 location.addExit(directions, destination);
             }
-        } catch (IOException e ){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
-       // locations.put(0, new Location(0, "You are sitting in front of a computer learning Java", null));
-
-       // Map<String, Integer> tempExit = new HashMap<>();
-       // tempExit.put("W", 2);
-       // tempExit.put("E", 3);
-       // tempExit.put("S", 4);
-       // tempExit.put("N", 5);
-       // locations.put(1, new Location(1, "You are standing at the end of a road before a small brick building", tempExit));
-
-       // tempExit = new HashMap<>();
-       // tempExit.put("N", 5);
-       // locations.put(2, new Location(2, "You are at the top of a hill", tempExit));
-
-       // tempExit = new HashMap<>();
-       // tempExit.put("W", 1);
-       // locations.put(3, new Location(3, "You are inside a building, a well house for a small spring", tempExit));
-
-       // tempExit = new HashMap<>();
-       // tempExit.put("N", 1);
-       // tempExit.put("W", 2);
-       // locations.put(4, new Location(4, "You are in a valley beside a stream", tempExit));
-
-       // tempExit = new HashMap<>();
-       // tempExit.put("S", 1);
-       // tempExit.put("W", 2);
-       // locations.put(5, new Location(5, "You are in the forest", tempExit));
     }
 
     @Override
@@ -142,7 +134,6 @@ public class Locations implements Map<Integer, Location> {
 
     @Override
     public void putAll(Map<? extends Integer, ? extends Location> m) {
-
     }
 
     @Override
