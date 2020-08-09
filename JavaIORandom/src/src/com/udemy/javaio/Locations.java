@@ -79,11 +79,11 @@ public class Locations implements Map<Integer, Location> {
         IndexRecord record = index.get(locationID);
         ra.seek(record.getStartByte());
         int id = ra.readInt();
-        String desciption = ra.readUTF();
+        String description = ra.readUTF();
         String exits = ra.readUTF();
         String[] exitPart = exits.split(",");
 
-        Location location = new Location(locationID, desciption, null);
+        Location location = new Location(locationID, description, null);
 
         if (locationID != 0) {
             for (int i = 0; i < exitPart.length; i++) {
