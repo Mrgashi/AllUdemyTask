@@ -9,19 +9,19 @@ import java.nio.file.attribute.BasicFileAttributes;
 public class Printnames extends SimpleFileVisitor<Path> {
 
     @Override
-    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
         System.out.println(file.toAbsolutePath());
         return FileVisitResult.CONTINUE;
     }
 
     @Override
-    public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+    public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
         System.out.println(dir.toAbsolutePath());
         return FileVisitResult.CONTINUE;
     }
 
     @Override
-    public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+    public FileVisitResult visitFileFailed(Path file, IOException exc) {
         System.out.println("Error accessing file." + file.toAbsolutePath() + " " + exc.getMessage());
         return FileVisitResult.CONTINUE;
     }
