@@ -1,0 +1,17 @@
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.Label?>
+<GridPane fx:controller="sample.Controller"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+
+    <Button text="Get Employee Names" onAction="#buttonPressed" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <ListView fx:id="listView" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    <ProgressBar fx:id="progressBar" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+    <Label fx:id="progressLabel" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+    <ListView fx:id="movieList" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+    <ProgressBar fx:id="movieProgressBar" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+    <Label fx:id="movieProgressBarLabel" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+</GridPane>
