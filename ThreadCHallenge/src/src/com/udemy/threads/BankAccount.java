@@ -3,18 +3,18 @@ package src.com.udemy.threads;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
-class BankAccountMain {
+class BankAccount {
 
     private double balance;
     private String accountNumber;
     private ReentrantLock re = new ReentrantLock();
 
-    public BankAccountMain(String accountNumber, double initialBalance) {
+    public BankAccount(String accountNumber, double initialBalance) {
         this.accountNumber = accountNumber;
         this.balance = initialBalance;
     }
 
-    public boolean deposit(double amount) {
+    public  void deposit(double amount) {
         boolean status = false;
         try {
             if (re.tryLock(1L, TimeUnit.SECONDS)){
@@ -33,7 +33,6 @@ class BankAccountMain {
 
         System.out.println("Transaction status = " + status);
 
-        return status;
     }
 
     public void withdraw(double amount)  {
